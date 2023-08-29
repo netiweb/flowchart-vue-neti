@@ -7738,7 +7738,7 @@ function connect(g, x1, y1, x2, y2, startPosition, endPosition, lineWidth, strok
 }
 
 function svg_arrowTo(g, x1, y1, x2, y2, lineWidth, strokeStyle) {
-  var path = lineTo(g, x1, y1, x2, y2, lineWidth, strokeStyle);
+  var path = lineTo(g, x1, y1, x2, y2, lineWidth, strokeStyle, );
   var id = 'arrow' + strokeStyle.replace('#', '');
   g.append('marker').attr('id', id).attr('markerUnits', 'strokeWidth').attr('viewBox', '0 0 12 12').attr('refX', 9).attr('refY', 6).attr('markerWidth', 12).attr('markerHeight', 12).attr('orient', 'auto').append('path').attr('d', 'M2,2 L10,6 L2,10 L6,6 L2,2').attr('fill', strokeStyle);
   path.attr('marker-end', 'url(#' + id + ')');
@@ -9611,6 +9611,7 @@ function ifElementContainChildNode(parentSelector, checkedNode) {
       return handleChartMouseMove;
     }(),
     handleChartDblClick: function handleChartDblClick(event) {
+
       if (this.isMouseClickOnSlot(event.target)) {
         return;
       }

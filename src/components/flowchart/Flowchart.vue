@@ -1,25 +1,36 @@
+/* eslint-disable */
 <template>
   <div
-      id="chart"
-      tabindex="0"
-      :style="{
+    id="chart"
+    tabindex="0"
+    :style="{
       width: isNaN(width) ? width : width + 'px',
       height: isNaN(height) ? height : height + 'px',
       cursor: cursor,
     }"
-      @mousemove="handleChartMouseMove"
-      @mouseup="handleChartMouseUp($event)"
-      @dblclick="handleChartDblClick($event)"
-      @mousewheel="handleChartMouseWheel"
-      @mousedown="handleChartMouseDown($event)"
+    @mousemove="handleChartMouseMove"
+    @mouseup="handleChartMouseUp($event)"
+    @dblclick="handleChartDblClick($event)"
+    @mousewheel="handleChartMouseWheel"
+    @mousedown="handleChartMouseDown($event)"
   >
-    <span id="position" class="unselectable">
+    <span
+      id="position"
+      class="unselectable"
+    >
       {{ cursorToChartOffset.x + ", " + cursorToChartOffset.y }}
     </span>
     <svg id="svg">
-      <rect class="selection" height="0" width="0"></rect>
+      <rect
+        class="selection"
+        height="0"
+        width="0"
+      ></rect>
     </svg>
-    <div id="chart-slot" class="unselectable">
+    <div
+      id="chart-slot"
+      class="unselectable"
+    >
       <slot></slot>
     </div>
   </div>
@@ -27,8 +38,8 @@
 <style src="./index.css"></style>
 <script>
 import { connect, lineTo } from "@/utils/svg";
-import {event, select} from "d3-selection";
-import {drag} from "d3-drag";
+import { event, select } from "d3-selection";
+import { drag } from "d3-drag";
 
 import {
   between,
@@ -120,6 +131,27 @@ export default {
     };
   },
   methods: {
+    calculateConnectionTextPosition(connObject, moveRight, moveDown) {
+      let maxX = connObject.lines[connObject.lines.length - 1].sourceX;
+      let minX = connObject.lines[0].destinationX;
+
+      let targetYPosition;
+
+      if(!moveRight && moveDown) {
+        targetYPosition = connObject.lines.length - 2
+      } else {
+        targetYPosition = 1
+      }
+
+      const targetY = connObject.lines[targetYPosition]
+
+      let textX = minX + (maxX - minX) / 2;
+      let textY = targetY.sourceY > targetY.destinationY ? targetY.destinationY : targetY.sourceY
+      return {
+        x: textX,
+        y: textY
+      }
+    },
     add(node) {
       if (this.readonly && !this.readOnlyPermissions.allowAddNodes) {
         return;
@@ -180,10 +212,10 @@ export default {
             };
             this.internalConnections.push(conn);
             this.$emit(
-                "connect",
-                conn,
-                this.internalNodes,
-                this.internalConnections
+              "connect",
+              conn,
+              this.internalNodes,
+              this.internalConnections
             );
           }
         }
@@ -197,8 +229,8 @@ export default {
         this.moveCoordinates.diffX -= event.pageX - this.moveCoordinates.startX;
         this.moveCoordinates.diffY += event.pageY - this.moveCoordinates.startY;
         this.$emit(
-            "movediff",
-            { x: this.moveCoordinates.diffX, y: this.moveCoordinates.diffY }
+          "movediff",
+          { x: this.moveCoordinates.diffX, y: this.moveCoordinates.diffY }
         );
         this.moveInfo = null;
       }
@@ -206,12 +238,12 @@ export default {
     isNodesConnectionValid() {
       const connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
       const connectionAlreadyExists = this.internalConnections
-          .some(x =>
-              x.source.id === this.connectingInfo.source.id
-              && x.source.position === this.connectingInfo.sourcePosition
-              && x.destination.id === this.hoveredConnector.node.id
-              && x.destination.position === this.hoveredConnector.position);
-      
+        .some(x =>
+          x.source.id === this.connectingInfo.source.id
+          && x.source.position === this.connectingInfo.sourcePosition
+          && x.destination.id === this.hoveredConnector.node.id
+          && x.destination.position === this.hoveredConnector.position);
+
       return !connectionToItself && !connectionAlreadyExists;
     },
     async handleChartMouseMove(event) {
@@ -230,19 +262,19 @@ export default {
         }
 
         let sourceOffset = this.getNodeConnectorOffset(
-            this.connectingInfo.source.id,
-            this.connectingInfo.sourcePosition
+          this.connectingInfo.source.id,
+          this.connectingInfo.sourcePosition
         );
         let destinationPosition = this.hoveredConnector
-            ? this.hoveredConnector.position
-            : null;
+          ? this.hoveredConnector.position
+          : null;
         this.arrowTo(
-            sourceOffset.x,
-            sourceOffset.y,
-            this.cursorToChartOffset.x,
-            this.cursorToChartOffset.y,
-            this.connectingInfo.sourcePosition,
-            destinationPosition
+          sourceOffset.x,
+          sourceOffset.y,
+          this.cursorToChartOffset.x,
+          this.cursorToChartOffset.y,
+          this.connectingInfo.sourcePosition,
+          destinationPosition
         );
       }
     },
@@ -253,6 +285,7 @@ export default {
       if (this.readonly && !this.readOnlyPermissions.allowDblClick) {
         return;
       }
+
       this.$emit("dblclick", { x: event.offsetX, y: event.offsetY });
     },
     handleChartMouseDown(event) {
@@ -277,26 +310,26 @@ export default {
     },
     isMouseOverAnyNode() {
       let cursorPosition = { x: this.cursorToChartOffset.x, y: this.cursorToChartOffset.y };
-      
+
       let result = false;
-      
-      for(let currentNodeIndex = 0; currentNodeIndex < this.internalNodes.length; currentNodeIndex++) {
+
+      for (let currentNodeIndex = 0; currentNodeIndex < this.internalNodes.length; currentNodeIndex++) {
         const node = this.internalNodes[currentNodeIndex];
         const nodeArea = {
           start: { x: node.x, y: node.y },
           end: { x: node.x + node.width, y: node.y + node.height }
         }
-        
-        const mousePointIntersectNodeArea = 
-               cursorPosition.x >= nodeArea.start.x && cursorPosition.x <= nodeArea.end.x
-            && cursorPosition.y >= nodeArea.start.y &&  cursorPosition.y <= nodeArea.end.y;
+
+        const mousePointIntersectNodeArea =
+          cursorPosition.x >= nodeArea.start.x && cursorPosition.x <= nodeArea.end.x
+          && cursorPosition.y >= nodeArea.start.y && cursorPosition.y <= nodeArea.end.y;
 
         if (mousePointIntersectNodeArea) {
           result = true;
           break;
         }
       }
-      
+
       return result;
     },
     getConnectorPosition(node) {
@@ -315,7 +348,7 @@ export default {
       if (this.hasNodeConnector(node, "left")) {
         result.left = { x: node.x, y: node.y + halfHeight };
       }
-      
+
       return result;
     },
     hasNodeConnector(node, position) {
@@ -373,11 +406,11 @@ export default {
             { x: line.destinationX, y: line.destinationY },
           ];
           if (
-              points.every((point) => pointRectangleIntersection(point, edge)) &&
-              that.currentConnections.every((item) => item.id !== line.id)
+            points.every((point) => pointRectangleIntersection(point, edge)) &&
+            that.currentConnections.every((item) => item.id !== line.id)
           ) {
             let connection = that.internalConnections.filter(
-                (conn) => conn.id === line.id
+              (conn) => conn.id === line.id
             )[0];
             that.currentConnections.push(connection);
           }
@@ -393,7 +426,7 @@ export default {
       return new Promise(function (resolve) {
         that.$nextTick(function () {
           for (let element of document.querySelectorAll(
-              "#svg > g.connection"
+            "#svg > g.connection"
           )) {
             element.remove();
           }
@@ -406,33 +439,35 @@ export default {
               return;
             }
             let sourcePosition = that.getNodeConnectorOffset(
-                conn.source.id,
-                conn.source.position
+              conn.source.id,
+              conn.source.position
             );
             let destinationPosition = that.getNodeConnectorOffset(
-                conn.destination.id,
-                conn.destination.position
+              conn.destination.id,
+              conn.destination.position
             );
             let colors = {
               pass: "#52c41a",
               reject: "red",
             };
             if (
-                that.currentConnections.filter((item) => item === conn).length > 0
+              that.currentConnections.filter((item) => item === conn).length > 0
             ) {
               colors = {
                 pass: "#12640a",
                 reject: "darkred",
               };
             }
+
             let result = that.arrowTo(
-                sourcePosition.x,
-                sourcePosition.y,
-                destinationPosition.x,
-                destinationPosition.y,
-                conn.source.position,
-                conn.destination.position,
-                colors[conn.type]
+              sourcePosition.x,
+              sourcePosition.y,
+              destinationPosition.x,
+              destinationPosition.y,
+              conn.source.position,
+              conn.destination.position,
+              colors[conn.type],
+              conn.name
             );
             for (const path of result.paths) {
               path.on("mousedown", () => {
@@ -448,8 +483,8 @@ export default {
                 }
                 that.currentNodes.splice(0, that.currentNodes.length);
                 that.currentConnections.splice(
-                    0,
-                    that.currentConnections.length
+                  0,
+                  that.currentConnections.length
                 );
                 that.currentConnections.push(conn);
               });
@@ -471,8 +506,8 @@ export default {
     haveNodesSelectedConnectors(connection) {
       const sourceNode = this.nodes.find(x => x.id === connection.source.id);
       const destinationNode = this.nodes.find(x => x.id === connection.destination.id);
-      return this.hasNodeConnector(sourceNode, connection.source.position) 
-          && this.hasNodeConnector(destinationNode, connection.destination.position);
+      return this.hasNodeConnector(sourceNode, connection.source.position)
+        && this.hasNodeConnector(destinationNode, connection.destination.position);
     },
     renderNodes() {
       let that = this;
@@ -484,8 +519,8 @@ export default {
         // render nodes
         that.internalNodes.forEach((node) => {
           that.renderNode(
-              node,
-              that.currentNodes.filter((item) => item === node).length > 0
+            node,
+            that.currentNodes.filter((item) => item === node).length > 0
           );
         });
 
@@ -505,34 +540,49 @@ export default {
       g.classed("guideline", true);
       lineTo(g, x1, y1, x2, y2, 1, "#a3a3a3", [5, 3]);
     },
-    arrowTo(x1, y1, x2, y2, startPosition, endPosition, color) {
+    arrowTo(x1, y1, x2, y2, startPosition, endPosition, color, connectionName) {
       let g = this.append("g");
       g.classed("connection", true);
-      connect(
-          g,
-          x1,
-          y1,
-          x2,
-          y2,
-          startPosition,
-          endPosition,
-          1,
-          color || "#a3a3a3",
-          true
+      const connectionLines = connect(
+        g,
+        x1,
+        y1,
+        x2,
+        y2,
+        startPosition,
+        endPosition,
+        1,
+        color || "#a3a3a3",
+        true
+      );
+
+      const moveRight = x2 - x1 > 0;
+      const moveDown = y2 - y1 > 0 ;
+
+
+      if (connectionName) {
+        const { x, y } = this.calculateConnectionTextPosition(connectionLines, moveRight, moveDown);
+
+        g.append('text').
+          attr('x', x).attr('y', y).
+          attr('text-anchor', 'middle').
+          text(connectionName);
+      }
+
+      const mainConnection = connect(
+        g,
+        x1,
+        y1,
+        x2,
+        y2,
+        startPosition,
+        endPosition,
+        5,
+        "transparent",
+        false
       );
       // a 5px cover to make mouse operation conveniently
-      return connect(
-          g,
-          x1,
-          y1,
-          x2,
-          y2,
-          startPosition,
-          endPosition,
-          5,
-          "transparent",
-          false
-      );
+      return mainConnection
     },
     renderNode(node, isSelected) {
       let that = this;
@@ -542,114 +592,114 @@ export default {
       that.$emit('render', node, children);
 
       let dragHandler = drag()
-          .on("start", function () {
-            // handle mousedown
-            let isNotCurrentNode =
-                that.currentNodes.filter((item) => item === node).length === 0;
-            if (isNotCurrentNode) {
-              that.currentConnections.splice(0, that.currentConnections.length);
-              that.currentNodes.splice(0, that.currentNodes.length);
-              that.currentNodes.push(node);
-            }
+        .on("start", function () {
+          // handle mousedown
+          let isNotCurrentNode =
+            that.currentNodes.filter((item) => item === node).length === 0;
+          if (isNotCurrentNode) {
+            that.currentConnections.splice(0, that.currentConnections.length);
+            that.currentNodes.splice(0, that.currentNodes.length);
+            that.currentNodes.push(node);
+          }
 
-            if (that.clickedOnce) {
-              that.currentNodes.splice(0, that.currentNodes.length);
-              that.editNode(node);
-            } else {
-              let timer = setTimeout(function () {
-                that.clickedOnce = false;
-                clearTimeout(timer);
-              }, 300);
-              that.clickedOnce = true;
-            }
-          })
-          .on("drag", async function () {
-            if (that.readonly && !that.readOnlyPermissions.allowDragNodes) {
-              return;
-            }
+          if (that.clickedOnce) {
+            that.currentNodes.splice(0, that.currentNodes.length);
+            that.editNode(node);
+          } else {
+            let timer = setTimeout(function () {
+              that.clickedOnce = false;
+              clearTimeout(timer);
+            }, 300);
+            that.clickedOnce = true;
+          }
+        })
+        .on("drag", async function () {
+          if (that.readonly && !that.readOnlyPermissions.allowDragNodes) {
+            return;
+          }
 
-            let zoom = parseFloat(document.getElementById("svg").style.zoom || 1);
-            for (let currentNode of that.currentNodes) {
-              let x = event.dx / zoom;
-              if (currentNode.x + x < 0) {
-                x = -currentNode.x;
-              }
-              currentNode.x += x;
-              let y = event.dy / zoom;
-              if (currentNode.y + y < 0) {
-                y = -currentNode.y;
-              }
-              currentNode.y += y;
+          let zoom = parseFloat(document.getElementById("svg").style.zoom || 1);
+          for (let currentNode of that.currentNodes) {
+            let x = event.dx / zoom;
+            if (currentNode.x + x < 0) {
+              x = -currentNode.x;
             }
+            currentNode.x += x;
+            let y = event.dy / zoom;
+            if (currentNode.y + y < 0) {
+              y = -currentNode.y;
+            }
+            currentNode.y += y;
+          }
 
-            for (let element of document.querySelectorAll("#svg > g.guideline")) {
-              element.remove();
-            }
-            let edge = that.getCurrentNodesEdge();
-            let expectX = Math.round(Math.round(edge.start.x) / 10) * 10;
-            let expectY = Math.round(Math.round(edge.start.y) / 10) * 10;
-            that.internalNodes.forEach((item) => {
-              if (
-                  that.currentNodes.filter((currentNode) => currentNode === item)
-                      .length === 0
-              ) {
-                if (item.x === expectX) {
-                  // vertical guideline
-                  if (item.y < expectY) {
-                    that.guideLineTo(
-                        item.x,
-                        item.y + item.height,
-                        expectX,
-                        expectY
-                    );
-                  } else {
-                    that.guideLineTo(
-                        expectX,
-                        expectY + item.height,
-                        item.x,
-                        item.y
-                    );
-                  }
-                }
-                if (item.y === expectY) {
-                  // horizontal guideline
-                  if (item.x < expectX) {
-                    that.guideLineTo(
-                        item.x + item.width,
-                        item.y,
-                        expectX,
-                        expectY
-                    );
-                  } else {
-                    that.guideLineTo(
-                        expectX + item.width,
-                        expectY,
-                        item.x,
-                        item.y
-                    );
-                  }
+          for (let element of document.querySelectorAll("#svg > g.guideline")) {
+            element.remove();
+          }
+          let edge = that.getCurrentNodesEdge();
+          let expectX = Math.round(Math.round(edge.start.x) / 10) * 10;
+          let expectY = Math.round(Math.round(edge.start.y) / 10) * 10;
+          that.internalNodes.forEach((item) => {
+            if (
+              that.currentNodes.filter((currentNode) => currentNode === item)
+                .length === 0
+            ) {
+              if (item.x === expectX) {
+                // vertical guideline
+                if (item.y < expectY) {
+                  that.guideLineTo(
+                    item.x,
+                    item.y + item.height,
+                    expectX,
+                    expectY
+                  );
+                } else {
+                  that.guideLineTo(
+                    expectX,
+                    expectY + item.height,
+                    item.x,
+                    item.y
+                  );
                 }
               }
-            });
-          })
-          .on("end", function () {
-            for (let element of document.querySelectorAll("#svg > g.guideline")) {
-              element.remove();
+              if (item.y === expectY) {
+                // horizontal guideline
+                if (item.x < expectX) {
+                  that.guideLineTo(
+                    item.x + item.width,
+                    item.y,
+                    expectX,
+                    expectY
+                  );
+                } else {
+                  that.guideLineTo(
+                    expectX + item.width,
+                    expectY,
+                    item.x,
+                    item.y
+                  );
+                }
+              }
             }
-            for (let currentNode of that.currentNodes) {
-              currentNode.x = Math.round(Math.round(currentNode.x) / 10) * 10;
-              currentNode.y = Math.round(Math.round(currentNode.y) / 10) * 10;
-            }
-
-            that.$emit("nodesdragged", that.currentNodes);
           });
+        })
+        .on("end", function () {
+          for (let element of document.querySelectorAll("#svg > g.guideline")) {
+            element.remove();
+          }
+          for (let currentNode of that.currentNodes) {
+            currentNode.x = Math.round(Math.round(currentNode.x) / 10) * 10;
+            currentNode.y = Math.round(Math.round(currentNode.y) / 10) * 10;
+          }
+
+          that.$emit("nodesdragged", that.currentNodes);
+        });
       g.call(dragHandler);
       g.on("mousedown", function () {
         if (!event.ctrlKey) {
           return;
         }
         let isNotCurrentNode =
-            that.currentNodes.filter((item) => item === node).length === 0;
+          that.currentNodes.filter((item) => item === node).length === 0;
         if (isNotCurrentNode) {
           that.currentNodes.push(node);
         } else {
@@ -662,57 +712,57 @@ export default {
       for (let position in connectorPosition) {
         let positionElement = connectorPosition[position];
         let connector = g
-            .append("circle")
-            .attr("cx", positionElement.x)
-            .attr("cy", positionElement.y)
-            .attr("r", 4)
-            .attr("class", "connector");
+          .append("circle")
+          .attr("cx", positionElement.x)
+          .attr("cy", positionElement.y)
+          .attr("r", 4)
+          .attr("class", "connector");
         connector
-            .on("mousedown", function () {
-              event.stopPropagation();
-              if (node.type === "end" || that.readonly) {
-                return;
+          .on("mousedown", function () {
+            event.stopPropagation();
+            if (node.type === "end" || that.readonly) {
+              return;
+            }
+            that.connectingInfo.source = node;
+            that.connectingInfo.sourcePosition = position;
+          })
+          .on("mouseup", function () {
+            event.stopPropagation();
+            if (that.connectingInfo.source) {
+              if (that.connectingInfo.source.id !== node.id) {
+                // Node can't connect to itself
+                let tempId = +new Date();
+                let conn = {
+                  source: {
+                    id: that.connectingInfo.source.id,
+                    position: that.connectingInfo.sourcePosition,
+                  },
+                  destination: {
+                    id: node.id,
+                    position: position,
+                  },
+                  id: tempId,
+                  type: "pass",
+                  name: "Pass",
+                };
+                that.internalConnections.push(conn);
+                that.$emit(
+                  "connect",
+                  conn,
+                  that.internalNodes,
+                  that.internalConnections
+                );
               }
-              that.connectingInfo.source = node;
-              that.connectingInfo.sourcePosition = position;
-            })
-            .on("mouseup", function () {
-              event.stopPropagation();
-              if (that.connectingInfo.source) {
-                if (that.connectingInfo.source.id !== node.id) {
-                  // Node can't connect to itself
-                  let tempId = +new Date();
-                  let conn = {
-                    source: {
-                      id: that.connectingInfo.source.id,
-                      position: that.connectingInfo.sourcePosition,
-                    },
-                    destination: {
-                      id: node.id,
-                      position: position,
-                    },
-                    id: tempId,
-                    type: "pass",
-                    name: "Pass",
-                  };
-                  that.internalConnections.push(conn);
-                  that.$emit(
-                      "connect",
-                      conn,
-                      that.internalNodes,
-                      that.internalConnections
-                  );
-                }
-                that.connectingInfo.source = null;
-                that.connectingInfo.sourcePosition = null;
-              }
-            })
-            .on("mouseover", function () {
-              connector.classed("active", true);
-            })
-            .on("mouseout", function () {
-              connector.classed("active", false);
-            });
+              that.connectingInfo.source = null;
+              that.connectingInfo.sourcePosition = null;
+            }
+          })
+          .on("mouseover", function () {
+            connector.classed("active", true);
+          })
+          .on("mouseout", function () {
+            connector.classed("active", false);
+          });
         connectors.push(connector);
       }
       g.on("mouseover", function () {
@@ -727,10 +777,10 @@ export default {
         y: node.y,
       }));
       points.push(
-          ...this.currentNodes.map((node) => ({
-            x: node.x + node.width,
-            y: node.y + node.height,
-          }))
+        ...this.currentNodes.map((node) => ({
+          x: node.x + node.width,
+          y: node.y + node.height,
+        }))
       );
       return getEdgeOfPoints(points);
     },
@@ -745,7 +795,7 @@ export default {
         return;
       }
       const anyElementToRemove = this.currentConnections.length > 0 || this.currentNodes.length > 0;
-      if (!anyElementToRemove) { 
+      if (!anyElementToRemove) {
         return;
       }
       if (!this.removeRequiresConfirmation) {
@@ -777,12 +827,12 @@ export default {
     },
     removeNode(node) {
       let connections = this.internalConnections.filter(
-          (item) => item.source.id === node.id || item.destination.id === node.id
+        (item) => item.source.id === node.id || item.destination.id === node.id
       );
       for (let connection of connections) {
         this.internalConnections.splice(
-            this.internalConnections.indexOf(connection),
-            1
+          this.internalConnections.indexOf(connection),
+          1
         );
       }
       this.internalNodes.splice(this.internalNodes.indexOf(node), 1);
@@ -792,10 +842,10 @@ export default {
       let index = this.internalConnections.indexOf(conn);
       this.internalConnections.splice(index, 1);
       this.$emit(
-          "disconnect",
-          conn,
-          this.internalNodes,
-          this.internalConnections
+        "disconnect",
+        conn,
+        this.internalNodes,
+        this.internalConnections
       );
     },
     moveCurrentNode(x, y) {
@@ -867,7 +917,8 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+  },
   computed: {
     hoveredConnector() {
       for (const node of this.internalNodes) {
@@ -875,10 +926,10 @@ export default {
         for (let prop in connectorPosition) {
           let entry = connectorPosition[prop];
           if (
-              Math.hypot(
-                  entry.x - this.cursorToChartOffset.x,
-                  entry.y - this.cursorToChartOffset.y
-              ) < 10
+            Math.hypot(
+              entry.x - this.cursorToChartOffset.x,
+              entry.y - this.cursorToChartOffset.y
+            ) < 10
           ) {
             return { position: prop, node: node };
           }
@@ -889,28 +940,28 @@ export default {
     hoveredConnection() {
       for (const line of this.lines) {
         let distance = distanceOfPointToLine(
-            line.sourceX,
-            line.sourceY,
-            line.destinationX,
-            line.destinationY,
-            this.cursorToChartOffset.x,
-            this.cursorToChartOffset.y
+          line.sourceX,
+          line.sourceY,
+          line.destinationX,
+          line.destinationY,
+          this.cursorToChartOffset.x,
+          this.cursorToChartOffset.y
         );
         if (
-            distance < 5 &&
-            between(
-                line.sourceX - 2,
-                line.destinationX + 2,
-                this.cursorToChartOffset.x
-            ) &&
-            between(
-                line.sourceY - 2,
-                line.destinationY + 2,
-                this.cursorToChartOffset.y
-            )
+          distance < 5 &&
+          between(
+            line.sourceX - 2,
+            line.destinationX + 2,
+            this.cursorToChartOffset.x
+          ) &&
+          between(
+            line.sourceY - 2,
+            line.destinationY + 2,
+            this.cursorToChartOffset.y
+          )
         ) {
           let connections = this.internalConnections.filter(
-              (item) => item.id === line.id
+            (item) => item.id === line.id
           );
           return connections.length > 0 ? connections[0] : null;
         }

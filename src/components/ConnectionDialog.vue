@@ -10,7 +10,7 @@
                 <label for="type">Type</label>
                 <select id="type" class="form-control" v-model="connectionForm.type">
                     <option :key="'connection-type-' + item.id"
-                            v-for="item in [ { name: 'Pass', id: 'pass' }, { name: 'Reject', id: 'reject' } ]"
+                            v-for="item in editTypes"
                             :value="item.id">
                         {{item.name}}
                     </option>
@@ -39,6 +39,7 @@
     },
     data() {
       return {
+        editTypes: [ { name: 'Pass', id: 'pass' }, { name: 'Reject',}, { name: 'Accept', id: 'accept' } ],
         connectionForm: {
           type: null,
           sourceId: null,

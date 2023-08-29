@@ -47,7 +47,7 @@
     data: function() {
       return {
         nodeForm: {name: null, id: null, type: null, approver: []},
-        approvers: [{id: 1, name: 'Joyce'}, {id: 2, name: 'Allen'}, {id: 3, name: 'Teresa'}],
+        approvers: [{id: 1, name: 'Joyce'}, {id: 2, name: 'Allen'}, {id: 3, name: 'Teresa'}, {id: 4, name: 'trararararararararararararararara'}],
       };
     },
     methods: {
