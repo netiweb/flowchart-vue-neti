@@ -1,11 +1,11 @@
 {
-  "name": "flowchart-vue",
+  "name": "flowchart-vue-net",
   "version": "0.30.0",
   "license": "MIT",
   "main": "dist/FlowChart.umd.min.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joyceworks/flowchart-vue.git"
+    "url": "https://github.com/S0RGE/flowchart-vue"
   },
   "keywords": [
     "flowchart",

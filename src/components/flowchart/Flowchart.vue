@@ -448,14 +448,16 @@ export default {
             );
             let colors = {
               pass: "#52c41a",
-              reject: "red",
+              reject: "#ff6864",
+              accept: "#5c60ff"
             };
             if (
               that.currentConnections.filter((item) => item === conn).length > 0
             ) {
               colors = {
-                pass: "#12640a",
-                reject: "darkred",
+                pass: "#3a8c13",
+                reject: "#e31600",
+                accept: "#0500b5"
               };
             }
 
