@@ -1,4 +1,4 @@
-# Flowchart
+# Fork of Flowchart original: https://github.com/joyceworks/flowchart-vue
 
 Flowchart & Flowchart designer component for Vue.js([flowchart-react](https://github.com/joyceworks/flowchart-react) for React.js).
 
