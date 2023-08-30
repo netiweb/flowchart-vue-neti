@@ -208,7 +208,6 @@ export default {
               },
               id: tempId,
               type: "pass",
-              name: "Pass",
             };
             this.internalConnections.push(conn);
             this.$emit(
@@ -745,7 +744,6 @@ export default {
                   },
                   id: tempId,
                   type: "pass",
-                  name: "Pass",
                 };
                 that.internalConnections.push(conn);
                 that.$emit(
