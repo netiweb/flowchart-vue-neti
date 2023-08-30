@@ -137,7 +137,7 @@ export default {
 
       let targetYPosition;
 
-      if(!moveRight && moveDown) {
+      if((!moveRight && moveDown) || (moveRight && moveDown)) {
         targetYPosition = connObject.lines.length - 2
       } else {
         targetYPosition = 1
