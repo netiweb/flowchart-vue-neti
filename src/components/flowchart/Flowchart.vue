@@ -64,7 +64,7 @@ export default {
       type: Array,
       default: () => [
         {
-          source: { id: 1, position: "right" },
+          source: { id: 1, position: "center" },
           destination: { id: 2, position: "left" },
           id: 1,
           type: "pass",
@@ -181,15 +181,13 @@ export default {
     handleChartMouseWheel(event) {
       event.stopPropagation();
       event.preventDefault();
-      if (event.ctrlKey) {
-        let svg = document.getElementById("svg");
+      let svg = document.getElementById("svg");
         let zoom = parseFloat(svg.style.zoom || 1);
         if (event.deltaY > 0 && zoom === 0.1) {
           return;
         }
         zoom -= event.deltaY / 100 / 10;
         svg.style.zoom = zoom;
-      }
     },
     async handleChartMouseUp(event) {
       if (this.connectingInfo.source) {
@@ -291,13 +289,9 @@ export default {
       if (this.isMouseClickOnSlot(event.target)) {
         return;
       }
-      if (event.ctrlKey) {
-        this.moveCoordinates.startX = event.pageX;
+      this.moveCoordinates.startX = event.pageX;
         this.moveCoordinates.startY = event.pageY;
         this.initializeMovingAllElements(event);
-      } else {
-        this.selectionInfo = { x: event.offsetX, y: event.offsetY };
-      }
     },
     isMouseClickOnSlot(eventTargetNode) {
       return ifElementContainChildNode('#chart-slot', eventTargetNode);
