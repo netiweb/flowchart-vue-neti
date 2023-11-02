@@ -20,8 +20,9 @@
     "analyze": "source-map-explorer 'dist/FlowChart.umd.min.js'"
   },
   "dependencies": {
+    "d3-drag": "1.2.5",
     "d3-selection": "1.4.1",
-    "d3-drag": "1.2.5"
+    "vue": "^2.5.22"
   },
   "peerDependencies": {
     "vue": "^2.5.22"
