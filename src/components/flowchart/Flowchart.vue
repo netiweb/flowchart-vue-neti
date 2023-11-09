@@ -6,12 +6,13 @@
     :style="{
       width: isNaN(width) ? width : width + 'px',
       height: isNaN(height) ? height : height + 'px',
+      overflow: overflow,
       cursor: cursor,
     }"
     @mousemove="handleChartMouseMove"
     @mouseup="handleChartMouseUp($event)"
     @dblclick="handleChartDblClick($event)"
-    @mousewheel="handleChartMouseWheel"
+    @wheel="handleChartMouseWheel"
     @mousedown="handleChartMouseDown($event)"
   >
     <span
@@ -78,6 +79,10 @@ export default {
     height: {
       type: [String, Number],
       default: 600,
+    },
+    overflow: {
+      type: [String],
+      default: 'auto',
     },
     readonly: {
       type: Boolean,
@@ -179,6 +184,8 @@ export default {
       this.$emit("editconnection", connection);
     },
     handleChartMouseWheel(event) {
+    
+      const isMozilla = window.navigator.userAgent.includes('Mozilla') 
       event.stopPropagation();
       event.preventDefault();
       let svg = document.getElementById("svg");
@@ -188,6 +195,9 @@ export default {
         }
         zoom -= event.deltaY / 100 / 10;
         svg.style.zoom = zoom;
+        if (isMozilla) {
+          svg.style.transform= `scale(${zoom})`;
+        }
     },
     async handleChartMouseUp(event) {
       if (this.connectingInfo.source) {
@@ -223,8 +233,6 @@ export default {
         this.selectionInfo = null;
       }
       if (this.moveInfo) {
-        this.moveCoordinates.diffX -= event.pageX - this.moveCoordinates.startX;
-        this.moveCoordinates.diffY += event.pageY - this.moveCoordinates.startY;
         this.$emit(
           "movediff",
           { x: this.moveCoordinates.diffX, y: this.moveCoordinates.diffY }
@@ -352,7 +360,6 @@ export default {
       if (!that.moveInfo) {
         return;
       }
-
       const moveX = that.moveInfo.x - that.cursorToChartOffset.x;
       const moveY = that.moveInfo.y - that.cursorToChartOffset.y;
       this.internalNodes.forEach(element => {
@@ -678,15 +685,15 @@ export default {
           });
         })
         .on("end", function () {
-          for (let element of document.querySelectorAll("#svg > g.guideline")) {
-            element.remove();
-          }
-          for (let currentNode of that.currentNodes) {
-            currentNode.x = Math.round(Math.round(currentNode.x) / 10) * 10;
-            currentNode.y = Math.round(Math.round(currentNode.y) / 10) * 10;
-          }
+          // for (let element of document.querySelectorAll("#svg > g.guideline")) {
+          //   element.remove();
+          // }
+          // for (let currentNode of that.currentNodes) {
+          //   currentNode.x = Math.round(Math.round(currentNode.x) / 10) * 10;
+          //   currentNode.y = Math.round(Math.round(currentNode.y) / 10) * 10;
+          // }
 
-          that.$emit("nodesdragged", that.currentNodes);
+          // that.$emit("nodesdragged", that.currentNodes);
         });
       g.call(dragHandler);
       g.on("mousedown", function () {
