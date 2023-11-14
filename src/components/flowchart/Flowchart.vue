@@ -184,8 +184,8 @@ export default {
       this.$emit("editconnection", connection);
     },
     handleChartMouseWheel(event) {
-    
-      const isMozilla = window.navigator.userAgent.includes('Mozilla') 
+
+      const isMozilla = window.navigator.userAgent.includes('Mozilla')
       event.stopPropagation();
       event.preventDefault();
       let svg = document.getElementById("svg");
@@ -298,7 +298,7 @@ export default {
         return;
       }
       this.moveCoordinates.startX = event.pageX;
-        this.moveCoordinates.startY = event.pageY;
+      this.moveCoordinates.startY = event.pageY;
         this.initializeMovingAllElements(event);
     },
     isMouseClickOnSlot(eventTargetNode) {
@@ -334,6 +334,7 @@ export default {
       return result;
     },
     getConnectorPosition(node) {
+
       const halfWidth = node.width / 2;
       const halfHeight = node.height / 2;
       const result = {};
@@ -349,7 +350,6 @@ export default {
       if (this.hasNodeConnector(node, "left")) {
         result.left = { x: node.x, y: node.y + halfHeight };
       }
-
       return result;
     },
     hasNodeConnector(node, position) {
@@ -366,9 +366,14 @@ export default {
         element.x -= moveX;
         element.y -= moveY;
       });
-
       that.moveInfo.x = that.cursorToChartOffset.x;
       that.moveInfo.y = that.cursorToChartOffset.y;
+
+      this.$emit(
+          "moveelems",
+          that.internalNodes
+        );
+
     },
     renderSelection() {
       let that = this;
@@ -512,19 +517,20 @@ export default {
         && this.hasNodeConnector(destinationNode, connection.destination.position);
     },
     renderNodes() {
+
       let that = this;
+
       return new Promise(function (resolve) {
         for (let node of document.querySelectorAll("#svg > g.node")) {
           node.remove();
         }
-
         // render nodes
         that.internalNodes.forEach((node) => {
-          that.renderNode(
-            node,
-            that.currentNodes.filter((item) => item === node).length > 0
-          );
-        });
+        that.renderNode(
+          node,
+          that.currentNodes.filter((item) => item === node).length > 0
+        );
+      });
 
         resolve();
       });
@@ -1055,3 +1061,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.flowchart__chart{
+  background-image: linear-gradient(90deg,#dfdfdf 1px,transparent 0),linear-gradient(180deg,#dfdfdf 1px,transparent 0),linear-gradient(90deg,#f1f1f1 1px,transparent 0),linear-gradient(180deg,#f1f1f1 1px,transparent 0);
+}
+</style>
