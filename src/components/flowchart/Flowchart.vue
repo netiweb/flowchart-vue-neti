@@ -14,6 +14,8 @@
     @dblclick="handleChartDblClick($event)"
     @wheel="handleChartMouseWheel"
     @mousedown="handleChartMouseDown($event)"
+    @touchstart="handleTouch($event)"
+    @touchmove="handleTouchMove($event)"
   >
     <span
       id="position"
@@ -133,6 +135,11 @@ export default {
         diffX: 0,
         diffY: 0,
       },
+      customViewBox: 680,
+      leftViewBox: 50,
+      topViewBox: 0,
+      isMobile: window.innerWidth < 756,
+      listOfTouches: [],
     };
   },
   methods: {
@@ -184,20 +191,25 @@ export default {
       this.$emit("editconnection", connection);
     },
     handleChartMouseWheel(event) {
-
-      const isMozilla = window.navigator.userAgent.includes('Mozilla')
       event.stopPropagation();
       event.preventDefault();
       let svg = document.getElementById("svg");
-        let zoom = parseFloat(svg.style.zoom || 1);
         if (event.deltaY > 0 && zoom === 0.1) {
           return;
         }
-        zoom -= event.deltaY / 100 / 10;
-        svg.style.zoom = zoom;
-        if (isMozilla) {
-          svg.style.transform= `scale(${zoom})`;
+        let zoom = event.deltaY / 2 ;
+        if (zoom > 0) {
+          this.leftViewBox =  this.customViewBox  < 1600 ? this.leftViewBox - (Math.round(zoom / 2)): this.leftViewBox
+          this.topViewBox =  this.customViewBox  < 1600? this.topViewBox - (Math.round(zoom / 5)) : this.topViewBox
+          this.customViewBox = this.customViewBox  < 1600 ?  this.customViewBox  + zoom :  this.customViewBox
+
+        } else {
+          this.leftViewBox =  this.customViewBox > 200 ? this.leftViewBox - (Math.round(zoom / 2)): this.leftViewBox
+          this.topViewBox = this.customViewBox > 200 ? this.topViewBox - (Math.round(zoom / 5)) : this.topViewBox
+          this.customViewBox = this.customViewBox > 200 ? this.customViewBox  + zoom : this.customViewBox
         }
+
+        svg.setAttribute('viewBox', `${this.leftViewBox} ${this.topViewBox} ${this.customViewBox} ${this.customViewBox}`)
     },
     async handleChartMouseUp(event) {
       if (this.connectingInfo.source) {
@@ -240,6 +252,56 @@ export default {
         this.moveInfo = null;
       }
     },
+    handleTouch(event) {
+      const svg = document.querySelector('#svg')
+      if (this.isMobile) {
+        this.moveCoordinates.startX = event.changedTouches[0].pageX;
+        this.moveCoordinates.startY = event.changedTouches[0].pageY;
+        let x = Math.round(this.moveCoordinates.startX) - svg.getBoundingClientRect().left;
+        let y = Math.round(this.moveCoordinates.startY) - svg.getBoundingClientRect().top;
+        this.moveInfo = {x,y};
+      }
+      if (this.isMouseClickOnSlot(event.target)) {
+        return;
+      }
+    },
+    zoomByTouch(direction) {
+      this.leftViewBox =  this.leftViewBox - (Math.round(direction / 2))
+      this.topViewBox = this.topViewBox - (Math.round(direction / 5))
+      this.customViewBox =this.customViewBox  + direction
+    },
+    async handleTouchMove(event) {
+      if (this.isMobile && event.targetTouches.length == 1)  {
+        let boundingClientRect = event.currentTarget.getBoundingClientRect();
+        let actualX = event.changedTouches[0].pageX - boundingClientRect.left - window.scrollX;
+        this.cursorToChartOffset.x = Math.trunc(actualX);
+        let actualY = event.changedTouches[0].pageY - boundingClientRect.top;
+        this.cursorToChartOffset.y = Math.trunc(actualY);
+        if (this.connectingInfo.source) {
+          await this.renderConnections();
+
+          for (let element of document.querySelectorAll("#svg .connector")) {
+            element.classList.add("active");
+          }
+
+          let sourceOffset = this.getNodeConnectorOffset(
+            this.connectingInfo.source.id,
+            this.connectingInfo.sourcePosition
+          );
+          let destinationPosition = this.hoveredConnector
+            ? this.hoveredConnector.position
+            : null;
+          this.arrowTo(
+            sourceOffset.x,
+            sourceOffset.y,
+            this.cursorToChartOffset.x,
+            this.cursorToChartOffset.y,
+            this.connectingInfo.sourcePosition,
+            destinationPosition
+          );
+        }
+      }
+    },
     isNodesConnectionValid() {
       const connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
       const connectionAlreadyExists = this.internalConnections
@@ -252,35 +314,39 @@ export default {
       return !connectionToItself && !connectionAlreadyExists;
     },
     async handleChartMouseMove(event) {
+      if (!this.isMobile) {
       // calc offset of cursor to chart
-      let boundingClientRect = event.currentTarget.getBoundingClientRect();
-      let actualX = event.pageX - boundingClientRect.left - window.scrollX;
-      this.cursorToChartOffset.x = Math.trunc(actualX);
-      let actualY = event.pageY - boundingClientRect.top - window.scrollY;
-      this.cursorToChartOffset.y = Math.trunc(actualY);
+        let boundingClientRect = event.currentTarget.getBoundingClientRect();
+        let actualX = event.pageX - boundingClientRect.left - window.scrollX;
+        this.cursorToChartOffset.x = Math.trunc(actualX);
+        let actualY = event.pageY - boundingClientRect.top - window.scrollY;
+        this.cursorToChartOffset.y = Math.trunc(actualY);
 
-      if (this.connectingInfo.source) {
-        await this.renderConnections();
+        if (this.connectingInfo.source) {
+          await this.renderConnections();
 
-        for (let element of document.querySelectorAll("#svg .connector")) {
-          element.classList.add("active");
+          for (let element of document.querySelectorAll("#svg .connector")) {
+            element.classList.add("active");
+          }
+
+          let sourceOffset = this.getNodeConnectorOffset(
+            this.connectingInfo.source.id,
+            this.connectingInfo.sourcePosition
+          );
+          let destinationPosition = this.hoveredConnector
+            ? this.hoveredConnector.position
+            : null;
+          this.arrowTo(
+            sourceOffset.x,
+            sourceOffset.y,
+            this.cursorToChartOffset.x,
+            this.cursorToChartOffset.y,
+            this.connectingInfo.sourcePosition,
+            destinationPosition
+          );
         }
-
-        let sourceOffset = this.getNodeConnectorOffset(
-          this.connectingInfo.source.id,
-          this.connectingInfo.sourcePosition
-        );
-        let destinationPosition = this.hoveredConnector
-          ? this.hoveredConnector.position
-          : null;
-        this.arrowTo(
-          sourceOffset.x,
-          sourceOffset.y,
-          this.cursorToChartOffset.x,
-          this.cursorToChartOffset.y,
-          this.connectingInfo.sourcePosition,
-          destinationPosition
-        );
+      } else {
+        event.preventDefault()
       }
     },
     handleChartDblClick(event) {
@@ -889,6 +955,8 @@ export default {
   mounted() {
     let that = this;
     that.init();
+    let svg = document.querySelector('#svg')
+      svg.setAttribute('viewBox', `${this.leftViewBox} ${this.topViewBox} ${this.customViewBox} ${this.customViewBox}`)
     document.onkeydown = function (event) {
       switch (event.keyCode) {
         case 37:

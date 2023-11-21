@@ -480,6 +480,21 @@ module.exports = function (key) {
 
 /***/ }),
 
+/***/ "2263":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("c833")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".flowchart__chart{background-image:linear-gradient(90deg,#dfdfdf 1px,transparent 0),linear-gradient(180deg,#dfdfdf 1px,transparent 0),linear-gradient(90deg,#f1f1f1 1px,transparent 0),linear-gradient(180deg,#f1f1f1 1px,transparent 0)}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "227b":
 /***/ (function(module, exports) {
 
@@ -607,6 +622,22 @@ module.exports = function (KEY) {
   });
 };
 
+
+/***/ }),
+
+/***/ "3020":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("2263");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("cd61").default
+var update = add("54ad9ddd", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -1540,7 +1571,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("e50d");
 
-// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3887ba70-vue-loader-template"}!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--12-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/babel-loader/lib!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--0-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib??vue-loader-options!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=0285d274
+// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"31b4450c-vue-loader-template"}!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--12-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/babel-loader/lib!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--0-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib??vue-loader-options!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=c68c1afa
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -1566,6 +1597,12 @@ var render = function render() {
       "wheel": _vm.handleChartMouseWheel,
       "mousedown": function mousedown($event) {
         return _vm.handleChartMouseDown($event);
+      },
+      "touchstart": function touchstart($event) {
+        return _vm.handleTouch($event);
+      },
+      "touchmove": function touchmove($event) {
+        return _vm.handleTouchMove($event);
       }
     }
   }, [_c('span', {
@@ -1592,7 +1629,7 @@ var render = function render() {
 };
 var staticRenderFns = [];
 
-// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=0285d274
+// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=c68c1afa
 
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es7.symbol.async-iterator.js
 var es7_symbol_async_iterator = __webpack_require__("f102a");
@@ -1661,6 +1698,12 @@ var es6_promise = __webpack_require__("7d5c");
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("c1d9");
 
+// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es7.array.includes.js
+var es7_array_includes = __webpack_require__("e9d4");
+
+// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es6.string.includes.js
+var es6_string_includes = __webpack_require__("93dd");
+
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es6.math.trunc.js
 var es6_math_trunc = __webpack_require__("691d");
 
@@ -1698,12 +1741,6 @@ function _asyncToGenerator(fn) {
     });
   };
 }
-// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es7.array.includes.js
-var es7_array_includes = __webpack_require__("e9d4");
-
-// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es6.string.includes.js
-var es6_string_includes = __webpack_require__("93dd");
-
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es6.number.constructor.js
 var es6_number_constructor = __webpack_require__("2698");
 
@@ -4044,7 +4081,12 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
         startY: 0,
         diffX: 0,
         diffY: 0
-      }
+      },
+      customViewBox: 680,
+      leftViewBox: 50,
+      topViewBox: 0,
+      isMobile: window.innerWidth < 756,
+      listOfTouches: []
     };
   },
   methods: {
@@ -4092,19 +4134,23 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       this.$emit("editconnection", connection);
     },
     handleChartMouseWheel: function handleChartMouseWheel(event) {
-      var isMozilla = window.navigator.userAgent.includes('Mozilla');
       event.stopPropagation();
       event.preventDefault();
       var svg = document.getElementById("svg");
-      var zoom = parseFloat(svg.style.zoom || 1);
       if (event.deltaY > 0 && zoom === 0.1) {
         return;
       }
-      zoom -= event.deltaY / 100 / 10;
-      svg.style.zoom = zoom;
-      if (isMozilla) {
-        svg.style.transform = "scale(".concat(zoom, ")");
+      var zoom = event.deltaY / 2;
+      if (zoom > 0) {
+        this.leftViewBox = this.customViewBox < 1600 ? this.leftViewBox - Math.round(zoom / 2) : this.leftViewBox;
+        this.topViewBox = this.customViewBox < 1600 ? this.topViewBox - Math.round(zoom / 5) : this.topViewBox;
+        this.customViewBox = this.customViewBox < 1600 ? this.customViewBox + zoom : this.customViewBox;
+      } else {
+        this.leftViewBox = this.customViewBox > 200 ? this.leftViewBox - Math.round(zoom / 2) : this.leftViewBox;
+        this.topViewBox = this.customViewBox > 200 ? this.topViewBox - Math.round(zoom / 5) : this.topViewBox;
+        this.customViewBox = this.customViewBox > 200 ? this.customViewBox + zoom : this.customViewBox;
       }
+      svg.setAttribute('viewBox', "".concat(this.leftViewBox, " ").concat(this.topViewBox, " ").concat(this.customViewBox, " ").concat(this.customViewBox));
     },
     handleChartMouseUp: function () {
       var _handleChartMouseUp = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(event) {
@@ -4157,33 +4203,49 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       }
       return handleChartMouseUp;
     }(),
-    isNodesConnectionValid: function isNodesConnectionValid() {
-      var _this = this;
-      var connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
-      var connectionAlreadyExists = this.internalConnections.some(function (x) {
-        return x.source.id === _this.connectingInfo.source.id && x.source.position === _this.connectingInfo.sourcePosition && x.destination.id === _this.hoveredConnector.node.id && x.destination.position === _this.hoveredConnector.position;
-      });
-      return !connectionToItself && !connectionAlreadyExists;
+    handleTouch: function handleTouch(event) {
+      var svg = document.querySelector('#svg');
+      if (this.isMobile) {
+        this.moveCoordinates.startX = event.changedTouches[0].pageX;
+        this.moveCoordinates.startY = event.changedTouches[0].pageY;
+        var x = Math.round(this.moveCoordinates.startX) - svg.getBoundingClientRect().left;
+        var y = Math.round(this.moveCoordinates.startY) - svg.getBoundingClientRect().top;
+        this.moveInfo = {
+          x: x,
+          y: y
+        };
+      }
+      if (this.isMouseClickOnSlot(event.target)) {
+        return;
+      }
     },
-    handleChartMouseMove: function () {
-      var _handleChartMouseMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
+    zoomByTouch: function zoomByTouch(direction) {
+      this.leftViewBox = this.leftViewBox - Math.round(direction / 2);
+      this.topViewBox = this.topViewBox - Math.round(direction / 5);
+      this.customViewBox = this.customViewBox + direction;
+    },
+    handleTouchMove: function () {
+      var _handleTouchMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
         var boundingClientRect, actualX, actualY, _iterator, _step, element, sourceOffset, destinationPosition;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              // calc offset of cursor to chart
-              boundingClientRect = event.currentTarget.getBoundingClientRect();
-              actualX = event.pageX - boundingClientRect.left - window.scrollX;
-              this.cursorToChartOffset.x = Math.trunc(actualX);
-              actualY = event.pageY - boundingClientRect.top - window.scrollY;
-              this.cursorToChartOffset.y = Math.trunc(actualY);
-              if (!this.connectingInfo.source) {
-                _context2.next = 13;
+              if (!(this.isMobile && event.targetTouches.length == 1)) {
+                _context2.next = 14;
                 break;
               }
-              _context2.next = 8;
+              boundingClientRect = event.currentTarget.getBoundingClientRect();
+              actualX = event.changedTouches[0].pageX - boundingClientRect.left - window.scrollX;
+              this.cursorToChartOffset.x = Math.trunc(actualX);
+              actualY = event.changedTouches[0].pageY - boundingClientRect.top;
+              this.cursorToChartOffset.y = Math.trunc(actualY);
+              if (!this.connectingInfo.source) {
+                _context2.next = 14;
+                break;
+              }
+              _context2.next = 9;
               return this.renderConnections();
-            case 8:
+            case 9:
               _iterator = _createForOfIteratorHelper(document.querySelectorAll("#svg .connector"));
               try {
                 for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -4198,13 +4260,74 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
               sourceOffset = this.getNodeConnectorOffset(this.connectingInfo.source.id, this.connectingInfo.sourcePosition);
               destinationPosition = this.hoveredConnector ? this.hoveredConnector.position : null;
               this.arrowTo(sourceOffset.x, sourceOffset.y, this.cursorToChartOffset.x, this.cursorToChartOffset.y, this.connectingInfo.sourcePosition, destinationPosition);
-            case 13:
+            case 14:
             case "end":
               return _context2.stop();
           }
         }, _callee2, this);
       }));
-      function handleChartMouseMove(_x2) {
+      function handleTouchMove(_x2) {
+        return _handleTouchMove.apply(this, arguments);
+      }
+      return handleTouchMove;
+    }(),
+    isNodesConnectionValid: function isNodesConnectionValid() {
+      var _this = this;
+      var connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
+      var connectionAlreadyExists = this.internalConnections.some(function (x) {
+        return x.source.id === _this.connectingInfo.source.id && x.source.position === _this.connectingInfo.sourcePosition && x.destination.id === _this.hoveredConnector.node.id && x.destination.position === _this.hoveredConnector.position;
+      });
+      return !connectionToItself && !connectionAlreadyExists;
+    },
+    handleChartMouseMove: function () {
+      var _handleChartMouseMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
+        var boundingClientRect, actualX, actualY, _iterator2, _step2, element, sourceOffset, destinationPosition;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              if (this.isMobile) {
+                _context3.next = 16;
+                break;
+              }
+              // calc offset of cursor to chart
+              boundingClientRect = event.currentTarget.getBoundingClientRect();
+              actualX = event.pageX - boundingClientRect.left - window.scrollX;
+              this.cursorToChartOffset.x = Math.trunc(actualX);
+              actualY = event.pageY - boundingClientRect.top - window.scrollY;
+              this.cursorToChartOffset.y = Math.trunc(actualY);
+              if (!this.connectingInfo.source) {
+                _context3.next = 14;
+                break;
+              }
+              _context3.next = 9;
+              return this.renderConnections();
+            case 9:
+              _iterator2 = _createForOfIteratorHelper(document.querySelectorAll("#svg .connector"));
+              try {
+                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                  element = _step2.value;
+                  element.classList.add("active");
+                }
+              } catch (err) {
+                _iterator2.e(err);
+              } finally {
+                _iterator2.f();
+              }
+              sourceOffset = this.getNodeConnectorOffset(this.connectingInfo.source.id, this.connectingInfo.sourcePosition);
+              destinationPosition = this.hoveredConnector ? this.hoveredConnector.position : null;
+              this.arrowTo(sourceOffset.x, sourceOffset.y, this.cursorToChartOffset.x, this.cursorToChartOffset.y, this.connectingInfo.sourcePosition, destinationPosition);
+            case 14:
+              _context3.next = 17;
+              break;
+            case 16:
+              event.preventDefault();
+            case 17:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, this);
+      }));
+      function handleChartMouseMove(_x3) {
         return _handleChartMouseMove.apply(this, arguments);
       }
       return handleChartMouseMove;
@@ -4327,11 +4450,11 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
           x: that.cursorToChartOffset.x,
           y: that.cursorToChartOffset.y
         }]);
-        var _iterator2 = _createForOfIteratorHelper(document.querySelectorAll("#svg .selection")),
-          _step2;
+        var _iterator3 = _createForOfIteratorHelper(document.querySelectorAll("#svg .selection")),
+          _step3;
         try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var rect = _step2.value;
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var rect = _step3.value;
             rect.classList.add("active");
             rect.setAttribute("x", edge.start.x);
             rect.setAttribute("y", edge.start.y);
@@ -4339,9 +4462,9 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
             rect.setAttribute("height", edge.end.y - edge.start.y);
           }
         } catch (err) {
-          _iterator2.e(err);
+          _iterator3.e(err);
         } finally {
-          _iterator2.f();
+          _iterator3.f();
         }
         that.internalNodes.forEach(function (item) {
           var points = [{
@@ -4383,17 +4506,17 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
           }
         });
       } else {
-        var _iterator3 = _createForOfIteratorHelper(document.querySelectorAll("#svg > .selection")),
-          _step3;
+        var _iterator4 = _createForOfIteratorHelper(document.querySelectorAll("#svg > .selection")),
+          _step4;
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var element = _step3.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var element = _step4.value;
             element.classList.remove("active");
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator3.f();
+          _iterator4.f();
         }
       }
     },
@@ -4401,18 +4524,18 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       var that = this;
       return new Promise(function (resolve) {
         that.$nextTick(function () {
-          var _iterator4 = _createForOfIteratorHelper(document.querySelectorAll("#svg > g.connection")),
-            _step4;
+          var _iterator5 = _createForOfIteratorHelper(document.querySelectorAll("#svg > g.connection")),
+            _step5;
           try {
-            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-              var element = _step4.value;
+            for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+              var element = _step5.value;
               element.remove();
             }
             // render lines
           } catch (err) {
-            _iterator4.e(err);
+            _iterator5.e(err);
           } finally {
-            _iterator4.f();
+            _iterator5.f();
           }
           that.lines = [];
           that.invalidConnections = [];
@@ -4438,11 +4561,11 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
               };
             }
             var result = that.arrowTo(sourcePosition.x, sourcePosition.y, destinationPosition.x, destinationPosition.y, conn.source.position, conn.destination.position, colors[conn.type], conn.name);
-            var _iterator5 = _createForOfIteratorHelper(result.paths),
-              _step5;
+            var _iterator6 = _createForOfIteratorHelper(result.paths),
+              _step6;
             try {
-              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-                var path = _step5.value;
+              for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                var path = _step6.value;
                 path.on("mousedown", function () {
                   on_event.stopPropagation();
                   if (that.pathClickedOnce) {
@@ -4460,15 +4583,15 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
                 });
               }
             } catch (err) {
-              _iterator5.e(err);
+              _iterator6.e(err);
             } finally {
-              _iterator5.f();
+              _iterator6.f();
             }
-            var _iterator6 = _createForOfIteratorHelper(result.lines),
-              _step6;
+            var _iterator7 = _createForOfIteratorHelper(result.lines),
+              _step7;
             try {
-              for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-                var line = _step6.value;
+              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                var line = _step7.value;
                 that.lines.push({
                   sourceX: line.sourceX,
                   sourceY: line.sourceY,
@@ -4478,9 +4601,9 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
                 });
               }
             } catch (err) {
-              _iterator6.e(err);
+              _iterator7.e(err);
             } finally {
-              _iterator6.f();
+              _iterator7.f();
             }
           });
           resolve();
@@ -4499,18 +4622,18 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
     renderNodes: function renderNodes() {
       var that = this;
       return new Promise(function (resolve) {
-        var _iterator7 = _createForOfIteratorHelper(document.querySelectorAll("#svg > g.node")),
-          _step7;
+        var _iterator8 = _createForOfIteratorHelper(document.querySelectorAll("#svg > g.node")),
+          _step8;
         try {
-          for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-            var node = _step7.value;
+          for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+            var node = _step8.value;
             node.remove();
           }
           // render nodes
         } catch (err) {
-          _iterator7.e(err);
+          _iterator8.e(err);
         } finally {
-          _iterator7.f();
+          _iterator8.f();
         }
         that.internalNodes.forEach(function (node) {
           that.renderNode(node, that.currentNodes.filter(function (item) {
@@ -4576,22 +4699,22 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
           }, 300);
           that.clickedOnce = true;
         }
-      }).on("drag", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        var zoom, _iterator8, _step8, currentNode, x, y, _iterator9, _step9, element, edge, expectX, expectY;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+      }).on("drag", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var zoom, _iterator9, _step9, currentNode, x, y, _iterator10, _step10, element, edge, expectX, expectY;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
               if (!(that.readonly && !that.readOnlyPermissions.allowDragNodes)) {
-                _context3.next = 2;
+                _context4.next = 2;
                 break;
               }
-              return _context3.abrupt("return");
+              return _context4.abrupt("return");
             case 2:
               zoom = parseFloat(document.getElementById("svg").style.zoom || 1);
-              _iterator8 = _createForOfIteratorHelper(that.currentNodes);
+              _iterator9 = _createForOfIteratorHelper(that.currentNodes);
               try {
-                for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-                  currentNode = _step8.value;
+                for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+                  currentNode = _step9.value;
                   x = on_event.dx / zoom;
                   if (currentNode.x + x < 0) {
                     x = -currentNode.x;
@@ -4604,20 +4727,20 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
                   currentNode.y += y;
                 }
               } catch (err) {
-                _iterator8.e(err);
-              } finally {
-                _iterator8.f();
-              }
-              _iterator9 = _createForOfIteratorHelper(document.querySelectorAll("#svg > g.guideline"));
-              try {
-                for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-                  element = _step9.value;
-                  element.remove();
-                }
-              } catch (err) {
                 _iterator9.e(err);
               } finally {
                 _iterator9.f();
+              }
+              _iterator10 = _createForOfIteratorHelper(document.querySelectorAll("#svg > g.guideline"));
+              try {
+                for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+                  element = _step10.value;
+                  element.remove();
+                }
+              } catch (err) {
+                _iterator10.e(err);
+              } finally {
+                _iterator10.f();
               }
               edge = that.getCurrentNodesEdge();
               expectX = Math.round(Math.round(edge.start.x) / 10) * 10;
@@ -4646,9 +4769,9 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
               });
             case 11:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
-        }, _callee3);
+        }, _callee4);
       }))).on("end", function () {
         // for (let element of document.querySelectorAll("#svg > g.guideline")) {
         //   element.remove();
@@ -4752,23 +4875,23 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       this.$emit("save", this.internalNodes, this.internalConnections);
     },
     remove: function () {
-      var _remove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _remove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var anyElementToRemove;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
             case 0:
               if (!(this.readonly && !this.readOnlyPermissions.allowRemove)) {
-                _context4.next = 2;
+                _context5.next = 2;
                 break;
               }
-              return _context4.abrupt("return");
+              return _context5.abrupt("return");
             case 2:
               anyElementToRemove = this.currentConnections.length > 0 || this.currentNodes.length > 0;
               if (anyElementToRemove) {
-                _context4.next = 5;
+                _context5.next = 5;
                 break;
               }
-              return _context4.abrupt("return");
+              return _context5.abrupt("return");
             case 5:
               if (!this.removeRequiresConfirmation) {
                 this.removeSelectedNodesAndConnections();
@@ -4777,9 +4900,9 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
               }
             case 6:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
       function remove() {
         return _remove.apply(this, arguments);
@@ -4794,32 +4917,32 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
         return;
       }
       if (this.currentConnections.length > 0) {
-        var _iterator10 = _createForOfIteratorHelper(this.currentConnections),
-          _step10;
-        try {
-          for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-            var conn = _step10.value;
-            this.removeConnection(conn);
-          }
-        } catch (err) {
-          _iterator10.e(err);
-        } finally {
-          _iterator10.f();
-        }
-        this.currentConnections.splice(0, this.currentConnections.length);
-      }
-      if (this.currentNodes.length > 0) {
-        var _iterator11 = _createForOfIteratorHelper(this.currentNodes),
+        var _iterator11 = _createForOfIteratorHelper(this.currentConnections),
           _step11;
         try {
           for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-            var node = _step11.value;
-            this.removeNode(node);
+            var conn = _step11.value;
+            this.removeConnection(conn);
           }
         } catch (err) {
           _iterator11.e(err);
         } finally {
           _iterator11.f();
+        }
+        this.currentConnections.splice(0, this.currentConnections.length);
+      }
+      if (this.currentNodes.length > 0) {
+        var _iterator12 = _createForOfIteratorHelper(this.currentNodes),
+          _step12;
+        try {
+          for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+            var node = _step12.value;
+            this.removeNode(node);
+          }
+        } catch (err) {
+          _iterator12.e(err);
+        } finally {
+          _iterator12.f();
         }
         this.currentNodes.splice(0, this.currentNodes.length);
       }
@@ -4828,17 +4951,17 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       var connections = this.internalConnections.filter(function (item) {
         return item.source.id === node.id || item.destination.id === node.id;
       });
-      var _iterator12 = _createForOfIteratorHelper(connections),
-        _step12;
+      var _iterator13 = _createForOfIteratorHelper(connections),
+        _step13;
       try {
-        for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-          var connection = _step12.value;
+        for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+          var connection = _step13.value;
           this.internalConnections.splice(this.internalConnections.indexOf(connection), 1);
         }
       } catch (err) {
-        _iterator12.e(err);
+        _iterator13.e(err);
       } finally {
-        _iterator12.f();
+        _iterator13.f();
       }
       this.internalNodes.splice(this.internalNodes.indexOf(node), 1);
       this.$emit("delete", node, this.internalNodes, this.internalConnections);
@@ -4850,11 +4973,11 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
     },
     moveCurrentNode: function moveCurrentNode(x, y) {
       if (this.currentNodes.length > 0 && !this.readonly) {
-        var _iterator13 = _createForOfIteratorHelper(this.currentNodes),
-          _step13;
+        var _iterator14 = _createForOfIteratorHelper(this.currentNodes),
+          _step14;
         try {
-          for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
-            var node = _step13.value;
+          for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+            var node = _step14.value;
             if (node.x + x < 0) {
               x = -node.x;
             }
@@ -4865,9 +4988,9 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
             node.y += y;
           }
         } catch (err) {
-          _iterator13.e(err);
+          _iterator14.e(err);
         } finally {
-          _iterator13.f();
+          _iterator14.f();
         }
       }
     },
@@ -4892,6 +5015,8 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
   mounted: function mounted() {
     var that = this;
     that.init();
+    var svg = document.querySelector('#svg');
+    svg.setAttribute('viewBox', "".concat(this.leftViewBox, " ").concat(this.topViewBox, " ").concat(this.customViewBox, " ").concat(this.customViewBox));
     document.onkeydown = function (event) {
       switch (event.keyCode) {
         case 37:
@@ -4931,11 +5056,11 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
   created: function created() {},
   computed: {
     hoveredConnector: function hoveredConnector() {
-      var _iterator14 = _createForOfIteratorHelper(this.internalNodes),
-        _step14;
+      var _iterator15 = _createForOfIteratorHelper(this.internalNodes),
+        _step15;
       try {
-        for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
-          var node = _step14.value;
+        for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+          var node = _step15.value;
           var connectorPosition = this.getConnectorPosition(node);
           for (var prop in connectorPosition) {
             var entry = connectorPosition[prop];
@@ -4948,19 +5073,19 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
           }
         }
       } catch (err) {
-        _iterator14.e(err);
+        _iterator15.e(err);
       } finally {
-        _iterator14.f();
+        _iterator15.f();
       }
       return null;
     },
     hoveredConnection: function hoveredConnection() {
       var _this3 = this;
-      var _iterator15 = _createForOfIteratorHelper(this.lines),
-        _step15;
+      var _iterator16 = _createForOfIteratorHelper(this.lines),
+        _step16;
       try {
         var _loop2 = function _loop2() {
-            var line = _step15.value;
+            var line = _step16.value;
             var distance = distanceOfPointToLine(line.sourceX, line.sourceY, line.destinationX, line.destinationY, _this3.cursorToChartOffset.x, _this3.cursorToChartOffset.y);
             if (distance < 5 && between(line.sourceX - 2, line.destinationX + 2, _this3.cursorToChartOffset.x) && between(line.sourceY - 2, line.destinationY + 2, _this3.cursorToChartOffset.y)) {
               var connections = _this3.internalConnections.filter(function (item) {
@@ -4972,14 +5097,14 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
             }
           },
           _ret;
-        for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+        for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
           _ret = _loop2();
           if (_ret) return _ret.v;
         }
       } catch (err) {
-        _iterator15.e(err);
+        _iterator16.e(err);
       } finally {
-        _iterator15.f();
+        _iterator16.f();
       }
       return null;
     },
@@ -5073,8 +5198,8 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/index.css?vue&type=style&index=0&prod&lang=css&external
 var flowchartvue_type_style_index_0_prod_lang_css_external = __webpack_require__("ba6f");
 
-// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=style&index=1&id=0285d274&prod&lang=css
-var Flowchartvue_type_style_index_1_id_0285d274_prod_lang_css = __webpack_require__("b0cd");
+// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=style&index=1&id=c68c1afa&prod&lang=css
+var Flowchartvue_type_style_index_1_id_c68c1afa_prod_lang_css = __webpack_require__("b8b0");
 
 // CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -5199,6 +5324,8 @@ var component = normalizeComponent(
 // CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/index.js
 
 
+
+/* eslint-disable */
 Flowchart.install = function (Vue) {
   Vue.component(Flowchart.name, Flowchart);
 };
@@ -5907,21 +6034,6 @@ module.exports = function (exec) {
     return true;
   }
 };
-
-
-/***/ }),
-
-/***/ "9f26":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("c833")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".flowchart__chart{background-image:linear-gradient(90deg,#dfdfdf 1px,transparent 0),linear-gradient(180deg,#dfdfdf 1px,transparent 0),linear-gradient(90deg,#f1f1f1 1px,transparent 0),linear-gradient(180deg,#f1f1f1 1px,transparent 0)}", ""]);
-
-// exports
 
 
 /***/ }),
@@ -6960,17 +7072,6 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 /***/ }),
 
-/***/ "b0cd":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_0285d274_prod_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("f360");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_0285d274_prod_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_0285d274_prod_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "b5aa":
 /***/ (function(module, exports) {
 
@@ -6995,6 +7096,17 @@ var floor = Math.floor;
 module.exports = function (it) {
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
+
+
+/***/ }),
+
+/***/ "b8b0":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_c68c1afa_prod_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("3020");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_c68c1afa_prod_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_c68c1afa_prod_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -8103,22 +8215,6 @@ module.exports = function (name) {
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
 };
 
-
-/***/ }),
-
-/***/ "f360":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("9f26");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("cd61").default
-var update = add("32d2c73c", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 

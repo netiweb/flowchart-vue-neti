@@ -1,6 +1,6 @@
 {
   "name": "flowchart-vue-neti",
-  "version": "0.30.12",
+  "version": "0.30.13",
   "license": "MIT",
   "main": "dist/FlowChart.umd.min.js",
   "repository": {
