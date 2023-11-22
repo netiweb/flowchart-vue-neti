@@ -10,9 +10,9 @@
       cursor: cursor,
     }"
     @mousemove="handleChartMouseMove"
+    @wheel="handleChartMouseWheel"
     @mouseup="handleChartMouseUp($event)"
     @dblclick="handleChartDblClick($event)"
-    @wheel="handleChartMouseWheel"
     @mousedown="handleChartMouseDown($event)"
     @touchstart="handleTouch($event)"
     @touchmove="handleTouchMove($event)"
@@ -135,9 +135,6 @@ export default {
         diffX: 0,
         diffY: 0,
       },
-      customViewBox: 680,
-      leftViewBox: 50,
-      topViewBox: 0,
       isMobile: window.innerWidth < 756,
       listOfTouches: [],
     };
@@ -191,25 +188,22 @@ export default {
       this.$emit("editconnection", connection);
     },
     handleChartMouseWheel(event) {
+      const isMozilla = window.navigator.userAgent.includes('Mozilla')
       event.stopPropagation();
       event.preventDefault();
-      let svg = document.getElementById("svg");
+      if(!this.isMobile) {
+        let svg = document.getElementById("svg");
+        let zoom = parseFloat(svg.style.zoom || 1);
         if (event.deltaY > 0 && zoom === 0.1) {
           return;
         }
-        let zoom = event.deltaY / 2 ;
-        if (zoom > 0) {
-          this.leftViewBox =  this.customViewBox  < 1600 ? this.leftViewBox - (Math.round(zoom / 2)): this.leftViewBox
-          this.topViewBox =  this.customViewBox  < 1600? this.topViewBox - (Math.round(zoom / 5)) : this.topViewBox
-          this.customViewBox = this.customViewBox  < 1600 ?  this.customViewBox  + zoom :  this.customViewBox
-
-        } else {
-          this.leftViewBox =  this.customViewBox > 200 ? this.leftViewBox - (Math.round(zoom / 2)): this.leftViewBox
-          this.topViewBox = this.customViewBox > 200 ? this.topViewBox - (Math.round(zoom / 5)) : this.topViewBox
-          this.customViewBox = this.customViewBox > 200 ? this.customViewBox  + zoom : this.customViewBox
+        zoom -= event.deltaY / 100 / 10;
+        svg.style.zoom = zoom;
+        if (isMozilla) {
+          svg.style.transform= `scale(${zoom})`;
         }
+      }
 
-        svg.setAttribute('viewBox', `${this.leftViewBox} ${this.topViewBox} ${this.customViewBox} ${this.customViewBox}`)
     },
     async handleChartMouseUp(event) {
       if (this.connectingInfo.source) {
@@ -264,11 +258,6 @@ export default {
       if (this.isMouseClickOnSlot(event.target)) {
         return;
       }
-    },
-    zoomByTouch(direction) {
-      this.leftViewBox =  this.leftViewBox - (Math.round(direction / 2))
-      this.topViewBox = this.topViewBox - (Math.round(direction / 5))
-      this.customViewBox =this.customViewBox  + direction
     },
     async handleTouchMove(event) {
       if (this.isMobile && event.targetTouches.length == 1)  {
@@ -765,7 +754,7 @@ export default {
           //   currentNode.y = Math.round(Math.round(currentNode.y) / 10) * 10;
           // }
 
-          // that.$emit("nodesdragged", that.currentNodes);
+          that.$emit("nodesdragged", that.currentNodes);
         });
       g.call(dragHandler);
       g.on("mousedown", function () {
@@ -955,8 +944,6 @@ export default {
   mounted() {
     let that = this;
     that.init();
-    let svg = document.querySelector('#svg')
-      svg.setAttribute('viewBox', `${this.leftViewBox} ${this.topViewBox} ${this.customViewBox} ${this.customViewBox}`)
     document.onkeydown = function (event) {
       switch (event.keyCode) {
         case 37:
