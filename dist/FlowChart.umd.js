@@ -589,21 +589,6 @@ module.exports = function (it, S) {
 
 /***/ }),
 
-/***/ "2ad6":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("c833")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".flowchart__chart{background-image:linear-gradient(90deg,#dfdfdf 1px,transparent 0),linear-gradient(180deg,#dfdfdf 1px,transparent 0),linear-gradient(90deg,#f1f1f1 1px,transparent 0),linear-gradient(180deg,#f1f1f1 1px,transparent 0)}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "2f00":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1555,7 +1540,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("e50d");
 
-// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4df585f4-vue-loader-template"}!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--12-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/babel-loader/lib!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--0-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib??vue-loader-options!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=330dd2b3
+// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0c37585e-vue-loader-template"}!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--12-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/babel-loader/lib!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/cache-loader/dist/cjs.js??ref--0-0!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib??vue-loader-options!E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=0697fbc0
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
@@ -1572,13 +1557,13 @@ var render = function render() {
     },
     on: {
       "mousemove": _vm.handleChartMouseMove,
-      "wheel": _vm.handleChartMouseWheel,
       "mouseup": function mouseup($event) {
         return _vm.handleChartMouseUp($event);
       },
       "dblclick": function dblclick($event) {
         return _vm.handleChartDblClick($event);
       },
+      "wheel": _vm.handleChartMouseWheel,
       "mousedown": function mousedown($event) {
         return _vm.handleChartMouseDown($event);
       },
@@ -1613,7 +1598,7 @@ var render = function render() {
 };
 var staticRenderFns = [];
 
-// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=330dd2b3
+// CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=template&id=0697fbc0
 
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/core-js/modules/es7.symbol.async-iterator.js
 var es7_symbol_async_iterator = __webpack_require__("f102a");
@@ -4065,9 +4050,7 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
         startY: 0,
         diffX: 0,
         diffY: 0
-      },
-      isMobile: window.innerWidth < 756,
-      listOfTouches: []
+      }
     };
   },
   methods: {
@@ -4118,8 +4101,8 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       var isMozilla = window.navigator.userAgent.includes('Mozilla');
       event.stopPropagation();
       event.preventDefault();
-      if (!this.isMobile) {
-        var svg = document.getElementById("svg");
+      var svg = document.getElementById("svg");
+      if (event.ctrlKey) {
         var zoom = parseFloat(svg.style.zoom || 1);
         if (event.deltaY > 0 && zoom === 0.1) {
           return;
@@ -4182,36 +4165,28 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       }
       return handleChartMouseUp;
     }(),
-    handleTouch: function handleTouch(event) {
-      var svg = document.querySelector('#svg');
-      if (this.isMobile) {
-        this.moveCoordinates.startX = event.changedTouches[0].pageX;
-        this.moveCoordinates.startY = event.changedTouches[0].pageY;
-        var x = Math.round(this.moveCoordinates.startX) - svg.getBoundingClientRect().left;
-        var y = Math.round(this.moveCoordinates.startY) - svg.getBoundingClientRect().top;
-        this.moveInfo = {
-          x: x,
-          y: y
-        };
-      }
-      if (this.isMouseClickOnSlot(event.target)) {
-        return;
-      }
+    isNodesConnectionValid: function isNodesConnectionValid() {
+      var _this = this;
+      var connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
+      var connectionAlreadyExists = this.internalConnections.some(function (x) {
+        return x.source.id === _this.connectingInfo.source.id && x.source.position === _this.connectingInfo.sourcePosition && x.destination.id === _this.hoveredConnector.node.id && x.destination.position === _this.hoveredConnector.position;
+      });
+      return !connectionToItself && !connectionAlreadyExists;
     },
-    handleTouchMove: function () {
-      var _handleTouchMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
+    handleChartMouseMove: function () {
+      var _handleChartMouseMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
         var boundingClientRect, actualX, actualY, _iterator, _step, element, sourceOffset, destinationPosition;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(this.isMobile && event.targetTouches.length == 1)) {
-                _context2.next = 14;
+              if (this.isMobile) {
+                _context2.next = 16;
                 break;
               }
               boundingClientRect = event.currentTarget.getBoundingClientRect();
-              actualX = event.changedTouches[0].pageX - boundingClientRect.left - window.scrollX;
+              actualX = event.pageX - boundingClientRect.left - window.scrollX;
               this.cursorToChartOffset.x = Math.trunc(actualX);
-              actualY = event.changedTouches[0].pageY - boundingClientRect.top;
+              actualY = event.pageY - boundingClientRect.top - window.scrollY;
               this.cursorToChartOffset.y = Math.trunc(actualY);
               if (!this.connectingInfo.source) {
                 _context2.next = 14;
@@ -4235,73 +4210,17 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
               destinationPosition = this.hoveredConnector ? this.hoveredConnector.position : null;
               this.arrowTo(sourceOffset.x, sourceOffset.y, this.cursorToChartOffset.x, this.cursorToChartOffset.y, this.connectingInfo.sourcePosition, destinationPosition);
             case 14:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, this);
-      }));
-      function handleTouchMove(_x2) {
-        return _handleTouchMove.apply(this, arguments);
-      }
-      return handleTouchMove;
-    }(),
-    isNodesConnectionValid: function isNodesConnectionValid() {
-      var _this = this;
-      var connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
-      var connectionAlreadyExists = this.internalConnections.some(function (x) {
-        return x.source.id === _this.connectingInfo.source.id && x.source.position === _this.connectingInfo.sourcePosition && x.destination.id === _this.hoveredConnector.node.id && x.destination.position === _this.hoveredConnector.position;
-      });
-      return !connectionToItself && !connectionAlreadyExists;
-    },
-    handleChartMouseMove: function () {
-      var _handleChartMouseMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
-        var boundingClientRect, actualX, actualY, _iterator2, _step2, element, sourceOffset, destinationPosition;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              if (this.isMobile) {
-                _context3.next = 16;
-                break;
-              }
-              // calc offset of cursor to chart
-              boundingClientRect = event.currentTarget.getBoundingClientRect();
-              actualX = event.pageX - boundingClientRect.left - window.scrollX;
-              this.cursorToChartOffset.x = Math.trunc(actualX);
-              actualY = event.pageY - boundingClientRect.top - window.scrollY;
-              this.cursorToChartOffset.y = Math.trunc(actualY);
-              if (!this.connectingInfo.source) {
-                _context3.next = 14;
-                break;
-              }
-              _context3.next = 9;
-              return this.renderConnections();
-            case 9:
-              _iterator2 = _createForOfIteratorHelper(document.querySelectorAll("#svg .connector"));
-              try {
-                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                  element = _step2.value;
-                  element.classList.add("active");
-                }
-              } catch (err) {
-                _iterator2.e(err);
-              } finally {
-                _iterator2.f();
-              }
-              sourceOffset = this.getNodeConnectorOffset(this.connectingInfo.source.id, this.connectingInfo.sourcePosition);
-              destinationPosition = this.hoveredConnector ? this.hoveredConnector.position : null;
-              this.arrowTo(sourceOffset.x, sourceOffset.y, this.cursorToChartOffset.x, this.cursorToChartOffset.y, this.connectingInfo.sourcePosition, destinationPosition);
-            case 14:
-              _context3.next = 17;
+              _context2.next = 17;
               break;
             case 16:
               event.preventDefault();
             case 17:
             case "end":
-              return _context3.stop();
+              return _context2.stop();
           }
-        }, _callee3, this);
+        }, _callee2, this);
       }));
-      function handleChartMouseMove(_x3) {
+      function handleChartMouseMove(_x2) {
         return _handleChartMouseMove.apply(this, arguments);
       }
       return handleChartMouseMove;
@@ -4411,6 +4330,69 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
       that.moveInfo.y = that.cursorToChartOffset.y;
       this.$emit("moveelems", that.internalNodes);
     },
+    handleTouch: function handleTouch(event) {
+      var svg = document.querySelector('#svg');
+      if (this.isMobile) {
+        this.moveCoordinates.startX = event.changedTouches[0].pageX;
+        this.moveCoordinates.startY = event.changedTouches[0].pageY;
+        var x = Math.round(this.moveCoordinates.startX) - svg.getBoundingClientRect().left;
+        var y = Math.round(this.moveCoordinates.startY) - svg.getBoundingClientRect().top;
+        this.moveInfo = {
+          x: x,
+          y: y
+        };
+      }
+      if (this.isMouseClickOnSlot(event.target)) {
+        return;
+      }
+    },
+    handleTouchMove: function () {
+      var _handleTouchMove = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
+        var boundingClientRect, actualX, actualY, _iterator2, _step2, element, sourceOffset, destinationPosition;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!(this.isMobile && event.targetTouches.length == 1)) {
+                _context3.next = 14;
+                break;
+              }
+              boundingClientRect = event.currentTarget.getBoundingClientRect();
+              actualX = event.changedTouches[0].pageX - boundingClientRect.left - window.scrollX;
+              this.cursorToChartOffset.x = Math.trunc(actualX);
+              actualY = event.changedTouches[0].pageY - boundingClientRect.top;
+              this.cursorToChartOffset.y = Math.trunc(actualY);
+              if (!this.connectingInfo.source) {
+                _context3.next = 14;
+                break;
+              }
+              _context3.next = 9;
+              return this.renderConnections();
+            case 9:
+              _iterator2 = _createForOfIteratorHelper(document.querySelectorAll("#svg .connector"));
+              try {
+                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                  element = _step2.value;
+                  element.classList.add("active");
+                }
+              } catch (err) {
+                _iterator2.e(err);
+              } finally {
+                _iterator2.f();
+              }
+              sourceOffset = this.getNodeConnectorOffset(this.connectingInfo.source.id, this.connectingInfo.sourcePosition);
+              destinationPosition = this.hoveredConnector ? this.hoveredConnector.position : null;
+              this.arrowTo(sourceOffset.x, sourceOffset.y, this.cursorToChartOffset.x, this.cursorToChartOffset.y, this.connectingInfo.sourcePosition, destinationPosition);
+            case 14:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, this);
+      }));
+      function handleTouchMove(_x3) {
+        return _handleTouchMove.apply(this, arguments);
+      }
+      return handleTouchMove;
+    }(),
     renderSelection: function renderSelection() {
       var that = this;
       // render selection rectangle
@@ -4603,6 +4585,7 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
             var node = _step8.value;
             node.remove();
           }
+
           // render nodes
         } catch (err) {
           _iterator8.e(err);
@@ -5170,9 +5153,6 @@ function Flowchartvue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len =
 // EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/index.css?vue&type=style&index=0&prod&lang=css&external
 var flowchartvue_type_style_index_0_prod_lang_css_external = __webpack_require__("ba6f");
 
-// EXTERNAL MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue?vue&type=style&index=1&id=330dd2b3&prod&lang=css
-var Flowchartvue_type_style_index_1_id_330dd2b3_prod_lang_css = __webpack_require__("8b7f");
-
 // CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
 
@@ -5272,7 +5252,6 @@ function normalizeComponent(
 }
 
 // CONCATENATED MODULE: E:/serge/Documents/NetBeansProjects/flowchart-vue-neti/flowchart-vue-neti/src/components/flowchart/Flowchart.vue
-
 
 
 
@@ -5815,17 +5794,6 @@ module.exports = Object.getPrototypeOf || function (O) {
     return O.constructor.prototype;
   } return O instanceof Object ? ObjectProto : null;
 };
-
-
-/***/ }),
-
-/***/ "8b7f":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_330dd2b3_prod_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e27c");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_330dd2b3_prod_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Flowchart_vue_vue_type_style_index_1_id_330dd2b3_prod_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -7766,22 +7734,6 @@ module.exports = function (fn, args, that) {
   } return fn.apply(that, args);
 };
 
-
-/***/ }),
-
-/***/ "e27c":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("2ad6");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("cd61").default
-var update = add("41d8e2d3", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 

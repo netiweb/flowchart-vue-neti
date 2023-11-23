@@ -10,9 +10,9 @@
       cursor: cursor,
     }"
     @mousemove="handleChartMouseMove"
-    @wheel="handleChartMouseWheel"
     @mouseup="handleChartMouseUp($event)"
     @dblclick="handleChartDblClick($event)"
+    @wheel="handleChartMouseWheel"
     @mousedown="handleChartMouseDown($event)"
     @touchstart="handleTouch($event)"
     @touchmove="handleTouchMove($event)"
@@ -135,8 +135,6 @@ export default {
         diffX: 0,
         diffY: 0,
       },
-      isMobile: window.innerWidth < 756,
-      listOfTouches: [],
     };
   },
   methods: {
@@ -188,11 +186,12 @@ export default {
       this.$emit("editconnection", connection);
     },
     handleChartMouseWheel(event) {
+
       const isMozilla = window.navigator.userAgent.includes('Mozilla')
       event.stopPropagation();
       event.preventDefault();
-      if(!this.isMobile) {
-        let svg = document.getElementById("svg");
+      let svg = document.getElementById("svg");
+      if (event.ctrlKey) {
         let zoom = parseFloat(svg.style.zoom || 1);
         if (event.deltaY > 0 && zoom === 0.1) {
           return;
@@ -203,7 +202,6 @@ export default {
           svg.style.transform= `scale(${zoom})`;
         }
       }
-
     },
     async handleChartMouseUp(event) {
       if (this.connectingInfo.source) {
@@ -245,6 +243,145 @@ export default {
         );
         this.moveInfo = null;
       }
+    },
+    isNodesConnectionValid() {
+      const connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
+      const connectionAlreadyExists = this.internalConnections
+        .some(x =>
+          x.source.id === this.connectingInfo.source.id
+          && x.source.position === this.connectingInfo.sourcePosition
+          && x.destination.id === this.hoveredConnector.node.id
+          && x.destination.position === this.hoveredConnector.position);
+
+      return !connectionToItself && !connectionAlreadyExists;
+    },
+    async handleChartMouseMove(event) {
+      // calc offset of cursor to chart
+      if (!this.isMobile) {
+        let boundingClientRect = event.currentTarget.getBoundingClientRect();
+        let actualX = event.pageX - boundingClientRect.left - window.scrollX;
+        this.cursorToChartOffset.x = Math.trunc(actualX);
+        let actualY = event.pageY - boundingClientRect.top - window.scrollY;
+        this.cursorToChartOffset.y = Math.trunc(actualY);
+
+        if (this.connectingInfo.source) {
+          await this.renderConnections();
+
+          for (let element of document.querySelectorAll("#svg .connector")) {
+            element.classList.add("active");
+          }
+
+          let sourceOffset = this.getNodeConnectorOffset(
+            this.connectingInfo.source.id,
+            this.connectingInfo.sourcePosition
+          );
+          let destinationPosition = this.hoveredConnector
+            ? this.hoveredConnector.position
+            : null;
+          this.arrowTo(
+            sourceOffset.x,
+            sourceOffset.y,
+            this.cursorToChartOffset.x,
+            this.cursorToChartOffset.y,
+            this.connectingInfo.sourcePosition,
+            destinationPosition
+          );
+        }
+      } else {
+        event.preventDefault()
+      }
+
+    },
+    handleChartDblClick(event) {
+      if (this.isMouseClickOnSlot(event.target)) {
+        return;
+      }
+      if (this.readonly && !this.readOnlyPermissions.allowDblClick) {
+        return;
+      }
+
+      this.$emit("dblclick", { x: event.offsetX, y: event.offsetY });
+    },
+    handleChartMouseDown(event) {
+      if (this.isMouseClickOnSlot(event.target)) {
+        return;
+      }
+      this.moveCoordinates.startX = event.pageX;
+        this.moveCoordinates.startY = event.pageY;
+        this.initializeMovingAllElements(event);
+    },
+    isMouseClickOnSlot(eventTargetNode) {
+      return ifElementContainChildNode('#chart-slot', eventTargetNode);
+    },
+    initializeMovingAllElements(event) {
+      if (!this.isMouseOverAnyNode()) {
+        this.moveInfo = { x: event.offsetX, y: event.offsetY };
+      }
+    },
+    isMouseOverAnyNode() {
+      let cursorPosition = { x: this.cursorToChartOffset.x, y: this.cursorToChartOffset.y };
+
+      let result = false;
+
+      for (let currentNodeIndex = 0; currentNodeIndex < this.internalNodes.length; currentNodeIndex++) {
+        const node = this.internalNodes[currentNodeIndex];
+        const nodeArea = {
+          start: { x: node.x, y: node.y },
+          end: { x: node.x + node.width, y: node.y + node.height }
+        }
+
+        const mousePointIntersectNodeArea =
+          cursorPosition.x >= nodeArea.start.x && cursorPosition.x <= nodeArea.end.x
+          && cursorPosition.y >= nodeArea.start.y && cursorPosition.y <= nodeArea.end.y;
+
+        if (mousePointIntersectNodeArea) {
+          result = true;
+          break;
+        }
+      }
+
+      return result;
+    },
+    getConnectorPosition(node) {
+      const halfWidth = node.width / 2;
+      const halfHeight = node.height / 2;
+      const result = {};
+      if (this.hasNodeConnector(node, "top")) {
+        result.top = { x: node.x + halfWidth, y: node.y };
+      }
+      if (this.hasNodeConnector(node, "right")) {
+        result.right = { x: node.x + node.width, y: node.y + halfHeight };
+      }
+      if (this.hasNodeConnector(node, "bottom")) {
+        result.bottom = { x: node.x + halfWidth, y: node.y + node.height };
+      }
+      if (this.hasNodeConnector(node, "left")) {
+        result.left = { x: node.x, y: node.y + halfHeight };
+      }
+
+      return result;
+    },
+    hasNodeConnector(node, position) {
+      return !node.connectors || node.connectors.includes(position);
+    },
+    moveAllElements() {
+      let that = this;
+      if (!that.moveInfo) {
+        return;
+      }
+      const moveX = that.moveInfo.x - that.cursorToChartOffset.x;
+      const moveY = that.moveInfo.y - that.cursorToChartOffset.y;
+      this.internalNodes.forEach(element => {
+        element.x -= moveX;
+        element.y -= moveY;
+      });
+
+      that.moveInfo.x = that.cursorToChartOffset.x;
+      that.moveInfo.y = that.cursorToChartOffset.y;
+      this.$emit(
+          "moveelems",
+          that.internalNodes
+        );
     },
     handleTouch(event) {
       const svg = document.querySelector('#svg')
@@ -290,145 +427,6 @@ export default {
           );
         }
       }
-    },
-    isNodesConnectionValid() {
-      const connectionToItself = this.connectingInfo.source.id === this.hoveredConnector.node.id;
-      const connectionAlreadyExists = this.internalConnections
-        .some(x =>
-          x.source.id === this.connectingInfo.source.id
-          && x.source.position === this.connectingInfo.sourcePosition
-          && x.destination.id === this.hoveredConnector.node.id
-          && x.destination.position === this.hoveredConnector.position);
-
-      return !connectionToItself && !connectionAlreadyExists;
-    },
-    async handleChartMouseMove(event) {
-      if (!this.isMobile) {
-      // calc offset of cursor to chart
-        let boundingClientRect = event.currentTarget.getBoundingClientRect();
-        let actualX = event.pageX - boundingClientRect.left - window.scrollX;
-        this.cursorToChartOffset.x = Math.trunc(actualX);
-        let actualY = event.pageY - boundingClientRect.top - window.scrollY;
-        this.cursorToChartOffset.y = Math.trunc(actualY);
-
-        if (this.connectingInfo.source) {
-          await this.renderConnections();
-
-          for (let element of document.querySelectorAll("#svg .connector")) {
-            element.classList.add("active");
-          }
-
-          let sourceOffset = this.getNodeConnectorOffset(
-            this.connectingInfo.source.id,
-            this.connectingInfo.sourcePosition
-          );
-          let destinationPosition = this.hoveredConnector
-            ? this.hoveredConnector.position
-            : null;
-          this.arrowTo(
-            sourceOffset.x,
-            sourceOffset.y,
-            this.cursorToChartOffset.x,
-            this.cursorToChartOffset.y,
-            this.connectingInfo.sourcePosition,
-            destinationPosition
-          );
-        }
-      } else {
-        event.preventDefault()
-      }
-    },
-    handleChartDblClick(event) {
-      if (this.isMouseClickOnSlot(event.target)) {
-        return;
-      }
-      if (this.readonly && !this.readOnlyPermissions.allowDblClick) {
-        return;
-      }
-
-      this.$emit("dblclick", { x: event.offsetX, y: event.offsetY });
-    },
-    handleChartMouseDown(event) {
-      if (this.isMouseClickOnSlot(event.target)) {
-        return;
-      }
-      this.moveCoordinates.startX = event.pageX;
-      this.moveCoordinates.startY = event.pageY;
-        this.initializeMovingAllElements(event);
-    },
-    isMouseClickOnSlot(eventTargetNode) {
-      return ifElementContainChildNode('#chart-slot', eventTargetNode);
-    },
-    initializeMovingAllElements(event) {
-      if (!this.isMouseOverAnyNode()) {
-        this.moveInfo = { x: event.offsetX, y: event.offsetY };
-      }
-    },
-    isMouseOverAnyNode() {
-      let cursorPosition = { x: this.cursorToChartOffset.x, y: this.cursorToChartOffset.y };
-
-      let result = false;
-
-      for (let currentNodeIndex = 0; currentNodeIndex < this.internalNodes.length; currentNodeIndex++) {
-        const node = this.internalNodes[currentNodeIndex];
-        const nodeArea = {
-          start: { x: node.x, y: node.y },
-          end: { x: node.x + node.width, y: node.y + node.height }
-        }
-
-        const mousePointIntersectNodeArea =
-          cursorPosition.x >= nodeArea.start.x && cursorPosition.x <= nodeArea.end.x
-          && cursorPosition.y >= nodeArea.start.y && cursorPosition.y <= nodeArea.end.y;
-
-        if (mousePointIntersectNodeArea) {
-          result = true;
-          break;
-        }
-      }
-
-      return result;
-    },
-    getConnectorPosition(node) {
-
-      const halfWidth = node.width / 2;
-      const halfHeight = node.height / 2;
-      const result = {};
-      if (this.hasNodeConnector(node, "top")) {
-        result.top = { x: node.x + halfWidth, y: node.y };
-      }
-      if (this.hasNodeConnector(node, "right")) {
-        result.right = { x: node.x + node.width, y: node.y + halfHeight };
-      }
-      if (this.hasNodeConnector(node, "bottom")) {
-        result.bottom = { x: node.x + halfWidth, y: node.y + node.height };
-      }
-      if (this.hasNodeConnector(node, "left")) {
-        result.left = { x: node.x, y: node.y + halfHeight };
-      }
-      return result;
-    },
-    hasNodeConnector(node, position) {
-      return !node.connectors || node.connectors.includes(position);
-    },
-    moveAllElements() {
-      let that = this;
-      if (!that.moveInfo) {
-        return;
-      }
-      const moveX = that.moveInfo.x - that.cursorToChartOffset.x;
-      const moveY = that.moveInfo.y - that.cursorToChartOffset.y;
-      this.internalNodes.forEach(element => {
-        element.x -= moveX;
-        element.y -= moveY;
-      });
-      that.moveInfo.x = that.cursorToChartOffset.x;
-      that.moveInfo.y = that.cursorToChartOffset.y;
-
-      this.$emit(
-          "moveelems",
-          that.internalNodes
-        );
-
     },
     renderSelection() {
       let that = this;
@@ -572,20 +570,19 @@ export default {
         && this.hasNodeConnector(destinationNode, connection.destination.position);
     },
     renderNodes() {
-
       let that = this;
-
       return new Promise(function (resolve) {
         for (let node of document.querySelectorAll("#svg > g.node")) {
           node.remove();
         }
+
         // render nodes
         that.internalNodes.forEach((node) => {
-        that.renderNode(
-          node,
-          that.currentNodes.filter((item) => item === node).length > 0
-        );
-      });
+          that.renderNode(
+            node,
+            that.currentNodes.filter((item) => item === node).length > 0
+          );
+        });
 
         resolve();
       });
@@ -1116,9 +1113,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.flowchart__chart{
-  background-image: linear-gradient(90deg,#dfdfdf 1px,transparent 0),linear-gradient(180deg,#dfdfdf 1px,transparent 0),linear-gradient(90deg,#f1f1f1 1px,transparent 0),linear-gradient(180deg,#f1f1f1 1px,transparent 0);
-}
-</style>
